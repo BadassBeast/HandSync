@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tempotouch - Haptic Hand Training Glove</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/arduino.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+      line-height: 1.7;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    
+    /* Header */
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-left: 32px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #3b82f6; }
+    
+    /* Hero */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 20px;
+      color: #94a3b8;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+    }
+    
+    /* Sections */
+    section {
+      padding: 80px 0;
+    }
+    section h2 {
+      font-size: 40px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    section .subtitle {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 18px;
+      margin-bottom: 60px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      margin-top: 60px;
+    }
+    .feature-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      border-radius: 16px;
+      padding: 32px;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #60a5fa;
+    }
+    .feature-card p {
+      color: #cbd5e1;
+      font-size: 16px;
+    }
+    
+    /* Code Section */
+    .code-section {
+      background: rgba(15, 23, 42, 0.8);
+    }
+    .code-container {
+      background: #282c34;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .code-header {
+      background: #21252b;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #181a1f;
+    }
+    .code-header .filename {
+      font-family: 'Fira Code', monospace;
+      color: #abb2bf;
+      font-size: 14px;
+    }
+    .copy-button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .copy-button:hover { background: #2563eb; }
+    pre {
+      margin: 0;
+      padding: 24px;
+      overflow-x: auto;
+      max-height: 600px;
+    }
+    pre code {
+      font-family: 'Fira Code', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    /* Video Demo */
+    .demo-video {
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      aspect-ratio: 16/9;
+      background: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      font-size: 18px;
+    }
+    
+    /* Footer */
+    footer {
+      background: rgba(15, 23, 42, 0.95);
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    footer p { color: #64748b; }
+    footer a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">⚡ Tempotouch</div>
+      <nav>
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#code">Code</a>
+        <a href="#demo">Demo</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Haptic Hand Training Glove</h1>
+      <p>Arduino-powered rehabilitation device with vibrotactile feedback, LCD UI, Exercise & Simon Says modes for motor skill recovery and memory training.</p>
+      <a href="#code" class="cta-button">View Source Code</a>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section id="overview">
+    <div class="container">
+      <h2>Project Overview</h2>
+      <p class="subtitle">Tempotouch combines hardware sensing, haptic feedback, and adaptive training modes to guide hand rehabilitation exercises.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>🖐️ Finger Touch Sensors</h3>
+          <p>Four independent sensors (Index, Middle, Ring, Pinky) detect palm contact with edge detection and 400 ms anti-spam cooldown.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📳 Unique Haptics</h3>
+          <p>Each finger has a distinct vibration pattern (dot-dash, triple-rise, long tail, staccato) for clear tactile recognition.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🎮 Two Training Modes</h3>
+          <p>Exercise mode with randomized rep targets and Simon Says memory game with Level 1 (single) and Level 2 (dual-finger) challenges.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🖥️ 16×2 LCD Interface</h3>
+          <p>Matrix Rain boot animation, real-time progress display, and mode selection menu with clean centered Tempotouch branding.</p>
+        </div>
+        <div class="feature-card">
+          <h3>⚡ Non-Blocking Timers</h3>
+          <p>millis()-based state machine with 3.5 s per-round answer windows, 20 s inactivity timeout, and 800 ms grace period.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔋 Portable Design</h3>
+          <p>Battery-powered Arduino Uno mounted on wooden robotic hand with motor on pin 6, wired to fingertips and forward.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" style="background: rgba(30, 41, 59, 0.4);">
+    <div class="container">
+      <h2>Key Features</h2>
+      <p class="subtitle">Built for rehabilitation professionals and patients seeking engaging motor therapy.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Adaptive Difficulty</h3>
+          <p>Simon mode offers optional Level 2 upgrade after 12-correct streak; wrong answers trigger instant reset with "You lost" screen.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Randomized Tasks</h3>
+          <p>Exercise mode assigns 3–10 reps per random finger to prevent monotony and ensure varied practice across all digits.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Instant Feedback</h3>
+          <p>Motor vibrates 110–360 ms per pattern within 100 ms of valid press; LCD updates immediately with rep counts and prompts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code -->
+  <section id="code" class="code-section">
+    <div class="container">
+      <h2>Arduino Source Code</h2>
+      <p class="subtitle">Full sketch with Matrix Rain boot logo, updated for motor on pin 6 and always-on backlight.</p>
+      <div class="code-container">
+        <div class="code-header">
+          <span class="filename">tempotouch.ino</span>
+          <button class="copy-button" onclick="copyCode()">Copy Code</button>
+        </div>
+        <pre><code class="language-arduino" id="sourceCode">#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+/*
+  Tempotouch - Haptic Hand Training Glove
+  - Boot: scanline → Matrix Rain → progress bar → centered "Tempotouch"
+  - Distinct stronger haptics per finger
+  - Anti-spam per finger (400 ms)
+  - Inactivity timing (20 s, 800 ms grace)
+  - Simon per-round window 3.5 s
+  - Motor on pin 6, backlight always on
+*/
+
+// ---------------- LCD ----------------
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// Optional PWM backlight (set true only if you wired it)
+const int  lcdBacklightPin = 6;
+const bool backlightPWM    = false;
+
+// Progress/scan chars
+byte bar1[8] = {B10000,B10000,B10000,B10000,B10000,B10000,B10000,B10000};
+byte bar2[8] = {B11000,B11000,B11000,B11000,B11000,B11000,B11000,B11000};
+byte bar3[8] = {B11100,B11100,B11100,B11100,B11100,B11100,B11100,B11100};
+byte bar4[8] = {B11110,B11110,B11110,B11110,B11110,B11110,B11110,B11110};
+byte bar5[8] = {B11111,B11111,B11111,B11111,B11111,B11111,B11111,B11111};
+byte scanChr[8] = {B00000,B00000,B11111,B11111,B11111,B00000,B00000,B00000};
+
+// Matrix Rain glyphs: bright head and fading tail
+byte rainHead[8] = {B11111,B11111,B11111,B11111,B11111,B11111,B11111,B11111};
+byte rainT1[8]   = {B01111,B01111,B01111,B01111,B01111,B01111,B01111,B01111};
+byte rainT2[8]   = {B00111,B00111,B00111,B00111,B00111,B00111,B00111,B00111};
+byte rainT3[8]   = {B00011,B00011,B00011,B00011,B00011,B00011,B00011,B00011};
+
+// ---------------- Pins ----------------
+const int fingers[4] = {13, 12, 10, 11};   // Index, Middle, Ring, Pinky (active-LOW)
+const int motorPin   = 6;                  // PWM motor
+
+// ---------------- Input filters ----------------
+int lastState[4] = {HIGH, HIGH, HIGH, HIGH};
+unsigned long lastChange[4] = {0, 0, 0, 0};
+const unsigned long debounceMs = 100;
+
+unsigned long lastValidPress[4] = {0,0,0,0};
+const unsigned long cooldownMs = 400;      // anti-spam
+
+// ---------------- Modes ----------------
+enum Mode { IDLE, EXERCISE, SIMON };
+Mode mode = IDLE;
+
+// ---------------- Simon state ----------------
+uint8_t difficulty = 1;    // 1 single, 2 dual
+int correctStreak = 0;
+bool askingUpgrade = false;
+
+int  targetFinger = -1;
+bool waitingForAnswer = false;
+
+int targetA = -1, targetB = -1;
+bool gotA = false, gotB = false;
+
+unsigned long answerStartMs = 0;
+const unsigned long answerDeadlineSingleMs = 3500;
+const unsigned long answerDeadlineDualMs   = 3500;
+
+// ---------------- Inactivity (original) ----------------
+unsigned long lastActivity = 0;
+const unsigned long idleMs = 20000;      // 20 s
+unsigned long promptShownAt = 0;
+const unsigned long promptGraceMs = 800; // original grace
+
+// ---------------- Random ----------------
+bool seeded = false;
+
+// ---------------- Names ----------------
+const char* fingerName[4] = {"Index","Middle","Ring","Pinky"};
+
+// ---------------- Exercise ----------------
+int exerciseFinger = -1;
+int exerciseRepsTarget = 0;
+int exerciseRepsDone = 0;
+int lastExerciseFinger = -1;
+const int minReps = 3;
+const int maxReps = 10;
+
+// ---------------- Helpers ----------------
+void activity() { lastActivity = millis(); }
+void ensureSeeded(){ if(!seeded){ randomSeed((unsigned long)micros()); seeded = true; } }
+
+void motorOn(uint8_t pwm){ analogWrite(motorPin, pwm); }
+void motorOff(){ analogWrite(motorPin, 0); }
+void setBacklight(uint8_t v){ if(backlightPWM) analogWrite(lcdBacklightPin, v); }
+
+// Strong, distinct patterns
+void playPattern(int finger) {
+  switch (finger) {
+    case 0:
+      motorOn(255); delay(140); motorOff(); delay(90);
+      motorOn(255); delay(140); motorOff(); delay(80);
+      motorOn(255); delay(260); motorOff(); delay(170);
+      break;
+    case 1:
+      motorOn(200); delay(130); motorOff(); delay(80);
+      motorOn(235); delay(150); motorOff(); delay(90);
+      motorOn(255); delay(220); motorOff(); delay(170);
+      break;
+    case 2:
+      motorOn(255); delay(360); motorOff(); delay(120);
+      motorOn(220); delay(130); motorOff(); delay(170);
+      break;
+    case 3:
+      for (int k=0;k<4;k++){ motorOn(255); delay(110); motorOff(); delay(80); }
+      delay(170);
+      break;
+  }
+}
+
+// ---------------- LCD UI ----------------
+void showHome() {
+  lcd.clear();
+  lcd.setCursor(0,0); lcd.print("Mode1: Exercise");
+  lcd.setCursor(0,1); lcd.print("Mode2: SimonSays");
+}
+void showExerciseTask(){
+  lcd.clear();
+  lcd.setCursor(0,0); lcd.print("Exercise");
+  lcd.setCursor(0,1);
+  lcd.print(exerciseRepsDone); lcd.print("/");
+  lcd.print(exerciseRepsTarget); lcd.print(" ");
+  lcd.print(fingerName[exerciseFinger]);
+}
+void showSimonPromptSingle(int f){
+  lcd.clear();
+  lcd.setCursor(0,0); lcd.print("Simon (Lv"); lcd.print(difficulty); lcd.print(")");
+  lcd.setCursor(0,1); lcd.print("Show: "); lcd.print(fingerName[f]);
+}
+void showSimonPromptDual(int a, int b){
+  lcd.clear();
+  lcd.setCursor(0,0); lcd.print("Simon (Lv2)");
+  lcd.setCursor(0,1); lcd.print("Show: "); lcd.print(fingerName[a]); lcd.print("&"); lcd.print(fingerName[b]);
+}
+void showUpgradeAsk(){
+  lcd.clear();
+  lcd.setCursor(0,0); lcd.print("Increase diff?");
+  lcd.setCursor(0,1); lcd.print("1=Yes 2=No");
+}
+void showMsg2(const char* l1, const char* l2){
+  lcd.clear();
+  lcd.setCursor(0,0); lcd.print(l1);
+  lcd.setCursor(0,1); lcd.print(l2);
+}
+
+// ---------------- Boot logo helpers ----------------
+void scanlineSweep(){
+  lcd.createChar(7, scanChr);
+  for(int col=0; col<16; col++){
+    lcd.setCursor(col,0);     lcd.write(byte(7));
+    lcd.setCursor(15-col,1);  lcd.write(byte(7));
+    delay(16);
+    lcd.setCursor(col,0);     lcd.print(" ");
+    lcd.setCursor(15-col,1);  lcd.print(" ");
+  }
+}
+
+void matrixRain(uint16_t msTotal){
+  // Load rain tiles into 0..3
+  lcd.createChar(0, rainHead);
+  lcd.createChar(1, rainT1);
+  lcd.createChar(2, rainT2);
+  lcd.createChar(3, rainT3);
+
+  // Each of the 16 columns has a head row (-1..2 where -1 is offscreen above top)
+  int8_t head[16]; uint8_t speed[16]; uint8_t length[16];
+  for(int c=0;c<16;c++){
+    head[c]   = random(-3, 3);          // start slightly above
+    speed[c]  = 1 + (random(0,3));      // 1..3 (lower = slower frame step)
+    length[c] = 2 + (random(0,3));      // 2..4 tail length
+  }
+  unsigned long start = millis();
+  uint16_t frame = 0;
+
+  while(millis() - start < msTotal){
+    // Clear both rows
+    lcd.setCursor(0,0); for(int c=0;c<16;c++) lcd.print(" ");
+    lcd.setCursor(0,1); for(int c=0;c<16;c++) lcd.print(" ");
+
+    for(int c=0;c<16;c++){
+      // Move head every few frames based on speed
+      if((frame % speed[c]) == 0) head[c]++;
+
+      // Draw head and tail within 2 visible rows (0 and 1)
+      auto drawSeg = [&](int row, int col, byte glyph){
+        if(row>=0 && row<2 && col>=0 && col<16){
+          lcd.setCursor(col,row); lcd.write(glyph);
+        }
+      };
+
+      int h = head[c];
+      drawSeg(h,   c, 0);             // head bright
+      if(length[c] >= 1) drawSeg(h-1, c, 1);
+      if(length[c] >= 2) drawSeg(h-2, c, 2);
+      if(length[c] >= 3) drawSeg(h-3, c, 3);
+
+      // Reset when drop fully passes bottom row
+      if(h - (int)length[c] > 1){
+        head[c]   = random(-3, 0);
+        speed[c]  = 1 + (random(0,3));
+        length[c] = 2 + (random(0,3));
+      }
+    }
+
+    frame++;
+    delay(45); // overall rain speed
+  }
+}
+
+// ---------------- Boot Logo ----------------
+void bootLogo(){
+  lcd.clear();
+  if(backlightPWM){ setBacklight(0); }
+
+  // 0) Scanline
+  scanlineSweep();
+
+  // 1) Matrix Rain (~1.6 s)
+  matrixRain(1600);
+
+  // 2) Progress bar (bar1..bar5)
+  lcd.createChar(0, bar1);
+  lcd.createChar(1, bar2);
+  lcd.createChar(2, bar3);
+  lcd.createChar(3, bar4);
+  lcd.createChar(4, bar5);
+
+  const int barLen = 12;
+  lcd.clear();
+  lcd.setCursor(2,0); lcd.print("Loading");
+  for(int pct=0; pct<=100; pct+=4){
+    int total = (pct * barLen * 5)/100;
+    int full  = total / 5;
+    int rem   = total % 5;
+    lcd.setCursor(2,1);
+    for(int i=0;i<barLen;i++){
+      if(i<full) lcd.write(byte(4));
+      else if(i==full && rem>0) lcd.write(byte(rem-1));
+      else lcd.print(" ");
+    }
+    delay(18);
+  }
+
+  // 3) Centered title (no dots)
+  lcd.clear();
+  lcd.setCursor(3,0); lcd.print("Tempotouch");
+  if(backlightPWM){
+    for(int b=0;b<=255;b+=10){ setBacklight(b); delay(10); }
+    delay(420);
+    for(int b=255;b>=0;b-=12){ setBacklight(b); delay(8); }
+    for(int b=0;b<=255;b+=12){ setBacklight(b); delay(6); }
+  } else {
+    delay(500);
+  }
+
+  // 4) Wipe to menu
+  for(int s=0; s<16; s++){ lcd.scrollDisplayLeft(); delay(10); }
+  lcd.clear();
+}
+
+// ---------------- Game flows ----------------
+void loseAndReset() {
+  showMsg2("You lost","Try again");
+  motorOn(255); delay(240); motorOff();
+  delay(250);
+  mode = IDLE;
+  waitingForAnswer = false;
+  targetFinger = -1; targetA = -1; targetB = -1; gotA = gotB = false;
+  askingUpgrade = false;
+  correctStreak = 0;
+  showHome();
+  activity();
+}
+
+void startExerciseTask(){
+  ensureSeeded();
+  int f;
+  do { f = random(0,4); } while (f == lastExerciseFinger);
+  lastExerciseFinger = exerciseFinger = f;
+  exerciseRepsTarget = random(minReps, maxReps + 1);
+  exerciseRepsDone = 0;
+  showExerciseTask();
+  activity();
+}
+
+void startSimonRoundSingle() {
+  ensureSeeded();
+  targetFinger = random(0,4);
+  showSimonPromptSingle(targetFinger);
+  playPattern(targetFinger);
+  waitingForAnswer = true;
+  promptShownAt = millis();
+  answerStartMs = promptShownAt;
+  activity();
+}
+
+void startSimonRoundDual() {
+  ensureSeeded();
+  targetA = random(0,4);
+  do { targetB = random(0,4); } while (targetB == targetA);
+  gotA = false; gotB = false;
+  showSimonPromptDual(targetA, targetB);
+  playPattern(targetA);
+  playPattern(targetB);
+  waitingForAnswer = true;
+  promptShownAt = millis();
+  answerStartMs = promptShownAt;
+  activity();
+}
+
+void maybeAskUpgrade() {
+  if (difficulty == 1 && correctStreak >= 12) {
+    askingUpgrade = true;
+    waitingForAnswer = false;
+    showUpgradeAsk();
+    activity();
+  }
+}
+
+// ---------------- Setup/Loop ----------------
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  if(backlightPWM){ pinMode(lcdBacklightPin, OUTPUT); setBacklight(0); }
+  bootLogo();               // boot animation
+  showHome();               // menu
+
+  for (int i=0;i<4;i++) pinMode(fingers[i], INPUT_PULLUP);
+  pinMode(motorPin, OUTPUT); analogWrite(motorPin, 0);
+  activity();
+}
+
+void loop() {
+  unsigned long now = millis();
+
+  // Edge detection + debounce + cooldown
+  for (int i=0;i<4;i++) {
+    int r = digitalRead(fingers[i]);
+    if (r != lastState[i] && (now - lastChange[i]) > debounceMs) {
+      lastChange[i] = now;
+
+      if (lastState[i] == HIGH && r == LOW) {
+        if ((now - lastValidPress[i]) >= cooldownMs) {    // anti-spam
+          lastValidPress[i] = now;
+          activity();
+
+          if (mode == IDLE) {
+            if (i == 0) {
+              mode = EXERCISE;
+              startExerciseTask();
+              playPattern(i);
+            } else if (i == 1) {
+              mode = SIMON;
+              correctStreak = 0;
+              askingUpgrade = false;
+              (difficulty == 1) ? startSimonRoundSingle() : startSimonRoundDual();
+            } else {
+              playPattern(i);
+            }
+          }
+          else if (mode == EXERCISE) {
+            if (i == exerciseFinger) {
+              exerciseRepsDone++;
+              playPattern(i);
+              showExerciseTask();
+              if (exerciseRepsDone >= exerciseRepsTarget) {
+                motorOn(255); delay(140); motorOff();
+                startExerciseTask();  // fast turnover
+              }
+            } else {
+              motorOn(160); delay(70); motorOff(); // gentle nudge
+            }
+          }
+          else if (mode == SIMON) {
+            if (askingUpgrade) {
+              if (i == 0) {
+                difficulty = 2; correctStreak = 0;
+                showMsg2("Difficulty set","to Level 2");
+                motorOn(255); delay(140); motorOff();
+                askingUpgrade = false;
+                startSimonRoundDual();
+              } else if (i == 1) {
+                difficulty = 1; correctStreak = 0;
+                showMsg2("Keep Level 1","Continue");
+                motorOn(235); delay(110); motorOff();
+                askingUpgrade = false;
+                startSimonRoundSingle();
+              }
+            }
+            else if (difficulty == 1 && waitingForAnswer) {
+              if (i == targetFinger) {
+                showMsg2("Correct:", fingerName[targetFinger]);
+                motorOn(255); delay(120); motorOff();
+                correctStreak++;
+                maybeAskUpgrade();
+                if (!askingUpgrade) startSimonRoundSingle();
+              } else {
+                loseAndReset();
+              }
+            }
+            else if (difficulty == 2 && waitingForAnswer) {
+              if (i == targetA) { gotA = true; motorOn(255); delay(80); motorOff(); }
+              else if (i == targetB) { gotB = true; motorOn(255); delay(80); motorOff(); }
+              else { loseAndReset(); }
+
+              if (mode == SIMON && gotA && gotB && waitingForAnswer) {
+                showMsg2("Correct pair","Next...");
+                motorOn(255); delay(120); motorOff();
+                correctStreak++;
+                startSimonRoundDual();
+              }
+            }
+          }
+        }
+      }
+      lastState[i] = r;
+    }
+  }
+
+  // Treat held inputs as activity while waiting in Simon
+  if (mode == SIMON && waitingForAnswer) {
+    for (int i=0;i<4;i++) if (digitalRead(fingers[i]) == LOW) { activity(); break; }
+  }
+
+  // Per-round answer timeout
+  if (mode == SIMON && waitingForAnswer) {
+    unsigned long deadline = (difficulty == 1) ? answerDeadlineSingleMs : answerDeadlineDualMs;
+    if ((millis() - answerStartMs) >= deadline) {
+      loseAndReset();
+    }
+  }
+
+  // Inactivity timeouts (original)
+  if (mode != IDLE && waitingForAnswer) {
+    if ((millis() - promptShownAt) >= promptGraceMs) {
+      if ((millis() - lastActivity) >= idleMs) {
+        mode = IDLE;
+        waitingForAnswer = false;
+        targetFinger = -1; targetA = -1; targetB = -1; gotA = gotB = false;
+        askingUpgrade = false;
+        showHome();
+        activity();
+      }
+    }
+  }
+  if (mode == EXERCISE) {
+    if ((millis() - lastActivity) >= idleMs) {
+      mode = IDLE;
+      exerciseFinger = -1; exerciseRepsTarget = 0; exerciseRepsDone = 0; lastExerciseFinger = -1;
+      showHome();
+      activity();
+    }
+  }
+}
+
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo -->
+  <section id="demo">
+    <div class="container">
+      <h2>Demo Video</h2>
+      <p class="subtitle">Watch Tempotouch in action with live Matrix Rain boot, Exercise mode, and Simon Says gameplay.</p>
+      <div class="demo-video">
+        📹 Demo video placeholder - upload your demo here
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Tempotouch Project. Built with Arduino, passion, and haptic feedback.</p>
+      <p style="margin-top: 12px;">Made by <a href="#">Your Name</a></p>
+    </div>
+  </footer>
+
+  <script>
+    hljs.highlightAll();
+    
+    function copyCode() {
+      const code = document.getElementById('sourceCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector('.copy-button');
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy Code'; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
